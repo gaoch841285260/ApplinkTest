@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 核心：Facebook App Links Meta Tags -->
+    <!-- iOS 配置 -->
+    <meta property="al:ios:url" content="mergecandypark://mylink" />
+    <meta property="al:ios:app_name" content="Sweet Escape" />
+    <meta property="al:ios:app_store_id" content="6755749200" /> <!-- 替换为实际的 App Store ID -->
+    
+    <!-- Android 配置 -->
+    <meta property="al:android:url" content="mergecandypark://mylink/123" />
+    <meta property="al:android:app_name" content="Sweet Escape" />
+    <meta property="al:android:package" content="com.hg.mergecandypark.android" />
+    
+    <!-- 网页回退地址 -->
+    <meta property="al:web:url" content="https://play.google.com/store/apps/details?id=com.hg.mergecandypark.android" />
+</head>
+<body>
+    <script>
+		
+        // 立即跳转到应用商店
+        //window.location.href = "https://play.google.com/store/apps/details?id=com.hg.mergecandypark.android";
+		
+		
+		(function() {
+            // 智能应用打开逻辑
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            var isAndroid = /android/i.test(userAgent);
+            var isiOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+            
+            // 应用深度链接
+            var iosDeepLink = "mergecandypark://mylink/open?source=facebook";
+            var androidDeepLink = "mergecandypark://mylink/123/open?source=facebook";
+            
+            // 应用商店链接
+            var iosAppStore = "https://apps.apple.com/us/app/sweet-escape-candy-park/id6755749200";
+            var androidPlayStore = "https://play.google.com/store/apps/details?id=com.hg.mergecandypark.android";
+            
+            
+            // 尝试打开应用，失败后跳转到应用商店
+            function openAppWithFallback() {
+                var startTime = Date.now();
+                var deepLink = isiOS ? iosDeepLink : androidDeepLink;
+                var appStore = isiOS ? iosAppStore : androidPlayStore;
+                
+                // 尝试打开应用
+                window.location.href = deepLink;
+                
+                // 设置超时检查（如果应用未安装，会停留在当前页面）
+                setTimeout(function() {
+                    var endTime = Date.now();
+                    var timeDiff = endTime - startTime;
+                    
+                    // 如果页面仍然活跃（应用未打开），跳转到应用商店
+                    if (timeDiff < 2100 && document.hasFocus()) {
+                        window.location.href = appStore;
+                    }
+                }, 2000);
+            }
+            
+            // 根据平台执行
+            if (isiOS || isAndroid) {
+                // 移动设备：尝试打开应用
+                openAppWithFallback();
+            } else {
+                // 桌面设备：跳转google商店
+                window.location.href = androidPlayStore;
+            }
+            
+            // 防止快速连续点击
+            var isRedirecting = false;
+            document.addEventListener('click', function(e) {
+                if (!isRedirecting) {
+                    isRedirecting = true;
+                    if (isiOS || isAndroid) {
+                        openAppWithFallback();
+                    }
+                    e.preventDefault();
+                }
+            });
+            
+        })();
+		
+		
+    </script>
+</body>
+</html>
