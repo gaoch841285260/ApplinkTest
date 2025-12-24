@@ -38,7 +38,7 @@
                 // 如果超时未跳转应用，则打开商店页
                 setTimeout(function() {
                     // 检查是否还在当前页面
-                    if (!document.hidden) {
+                    if (!document.hidden && document.hasFocus()) {
                         window.location.href = 'https://apps.apple.com/us/app/sweet-escape-candy-park/id6755749200';
                     }
                 }, 1000);
