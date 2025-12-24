@@ -27,6 +27,8 @@
         const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
 		 
         const isAndroid = /android/i.test(userAgent);
+		
+		const isWindows = /Win/.test(navigator.platform) || /Windows/.test(navigator.userAgent);
         // 跳转函数
         function attemptOpenApp() {
             if (isIOS || isiPad) {
@@ -54,7 +56,7 @@
                 
             } else {
                 // 桌面设备：直接跳转到相应商店
-                if (isIOS) {
+                if (!isWindows) {
                     window.location.href = 'https://apps.apple.com/us/app/sweet-escape-candy-park/id6755749200';
                 } else {
                     window.location.href = 'https://play.google.com/store/apps/details?id=com.hg.mergecandypark.android';
