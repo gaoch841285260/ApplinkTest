@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 核心：Facebook App Links Meta Tags -->
+    <!-- iOS 配置 -->
+    <meta property="al:ios:url" content="mergecandypark://mylink" />
+    <meta property="al:ios:app_name" content="Sweet Escape" />
+    <meta property="al:ios:app_store_id" content="6755749200" /> <!-- 替换为实际的 App Store ID -->
+    
+    <!-- Android 配置 -->
+    <meta property="al:android:url" content="mergecandypark://mylink/123" />
+    <meta property="al:android:app_name" content="Sweet Escape" />
+    <meta property="al:android:package" content="com.hg.mergecandypark.android" />
+    
+    <!-- 网页回退地址 -->
+    <meta property="al:web:url" content="https://play.google.com/store/apps/details?id=com.hg.mergecandypark.android" />
+</head>
+<body>
+    <script>
+		
+       (function() {
+        // 用户代理检测
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+		// 新版 iPad 可能被识别为 Mac
+        const isiPad = /iPad/.test(navigator.userAgent) || (navigator.maxTouchPoints && navigator.maxTouchPoints > 2 && /Mac/.test(navigator.platform));
+		
+        const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+		 
+        const isAndroid = /android/i.test(userAgent);
+        // 跳转函数
+        function attemptOpenApp() {
+            if (isIOS || isiPad) {
+                // 跳转deeplink
+                window.location.href = 'mergecandypark://mylink';
+                
+                // 如果超时未跳转应用，则打开商店页
+                setTimeout(function() {
+                    // 检查是否还在当前页面
+                    if (!document.hidden) {
+                        window.location.href = 'https://apps.apple.com/us/app/sweet-escape-candy-park/id6755749200';
+                    }
+                }, 1000);
+                
+            } else if (isAndroid) {
+                // 跳转deeplink
+                window.location.href = 'mergecandypark://mylink/123';
+                
+                // 如果超时未跳转应用，则打开商店页
+                setTimeout(function() {
+                    if (!document.hidden) {
+                        window.location.href = 'https://play.google.com/store/apps/details?id=com.hg.mergecandypark.android';
+                    }
+                }, 1000);
+                
+            } else {
+                // 桌面设备：直接跳转到相应商店
+                if (isIOS) {
+                    window.location.href = 'https://apps.apple.com/us/app/sweet-escape-candy-park/id6755749200';
+                } else {
+                    window.location.href = 'https://play.google.com/store/apps/details?id=com.hg.mergecandypark.android';
+                }
+            }
+        }
+        
+        // 页面加载后执行跳转
+        window.addEventListener('load', attemptOpenApp);
+        
+    })();
+    </script>
+</body>
+</html>
