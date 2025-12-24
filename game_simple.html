@@ -17,51 +17,19 @@
 </head>
 <body>
     <script>
-		
-       (function() {
-        // 用户代理检测
-        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
-        const isAndroid = /android/i.test(userAgent);
-        // 跳转函数
-        function attemptOpenApp() {
+		 // 立即跳转到应用
+        window.location.href = 'mergecandypark://mylink';
+        
+        // 如果失败，跳转到应用商店
+        setTimeout(function() {
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
             if (isIOS) {
-                // 跳转deeplink
-                window.location.href = 'mergecandypark://mylink';
-                
-                // 如果超时未跳转应用，则打开商店页
-                setTimeout(function() {
-                    // 检查是否还在当前页面
-                    if (!document.hidden) {
-                        window.location.href = 'https://apps.apple.com/us/app/sweet-escape-candy-park/id6755749200';
-                    }
-                }, 1000);
-                
-            } else if (isAndroid) {
-                // 跳转deeplink
-                window.location.href = 'mergecandypark://mylink/123';
-                
-                // 如果超时未跳转应用，则打开商店页
-                setTimeout(function() {
-                    if (!document.hidden) {
-                        window.location.href = 'https://play.google.com/store/apps/details?id=com.hg.mergecandypark.android';
-                    }
-                }, 1000);
-                
+                window.location.href = 'https://apps.apple.com/us/app/sweet-escape-candy-park/id6755749200';
             } else {
-                // 桌面设备：直接跳转到相应商店
-                if (isIOS) {
-                    window.location.href = 'https://apps.apple.com/us/app/sweet-escape-candy-park/id6755749200';
-                } else {
-                    window.location.href = 'https://play.google.com/store/apps/details?id=com.hg.mergecandypark.android';
-                }
+                window.location.href = 'https://play.google.com/store/apps/details?id=com.hg.mergecandypark.android';
             }
-        }
-        
-        // 页面加载后执行跳转
-        window.addEventListener('load', attemptOpenApp);
-        
-    })();
+        }, 1000);
+       
     </script>
 </body>
 </html>
