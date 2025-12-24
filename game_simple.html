@@ -5,13 +5,18 @@
 </head>
 <body>
     <script>
-		 // 立即跳转到应用
-        //window.location.href = 'mergecandypark://mylink';
+		
         
         // 如果失败，跳转到应用商店
         setTimeout(function() {
+		    const ua = navigator.userAgent;
+            const platform = navigator.platform;
+            
+            // 新版 iPad 可能被识别为 Mac
+            const isiPad = /iPad/.test(ua) || 
+                          (navigator.maxTouchPoints && navigator.maxTouchPoints > 2 && /Mac/.test(platform));
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-            if (isIOS) {
+            if (isIOS || isiPad) {
                 window.location.href = 'https://apps.apple.com/us/app/sweet-escape-candy-park/id6755749200';
             } else {
                 window.location.href = 'https://play.google.com/store/apps/details?id=com.hg.mergecandypark.android';
